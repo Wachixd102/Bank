@@ -12,6 +12,6 @@ dist/
 build/
 .idea/
 .vscode/
-*.pkl
+#*.pkl
 *.joblib
 .DS_Store
