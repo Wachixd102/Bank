@@ -13,9 +13,38 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-if not os.path.exists('models/scaler.pkl') or not os.path.exists('models/models.pkl'):
+import os
+
+# ตรวจสอบ Path ที่ถูกต้อง
+current_dir = os.path.dirname(os.path.abspath(__file__))
+models_dir = os.path.join(current_dir, 'models')
+scaler_path = os.path.join(models_dir, 'scaler.pkl')
+models_path = os.path.join(models_dir, 'models.pkl')
+
+# Debug: แสดง path ที่กำลังค้นหา (จะแสดงใน terminal)
+print(f"🔍 กำลังค้นหาโมเดลที่: {models_dir}")
+print(f" ไฟล์ scaler.pkl: {os.path.exists(scaler_path)}")
+print(f" ไฟล์ models.pkl: {os.path.exists(models_path)}")
+
+if not os.path.exists(scaler_path) or not os.path.exists(models_path):
     st.error("❌ ไม่พบไฟล์โมเดล! กรุณารันคำสั่ง `python train_and_save_models.py` ใน Terminal ก่อน")
+    st.error(f"📂 ตำแหน่งที่ค้นหา: {models_dir}")
+    
+    # แสดงรายการไฟล์ในโฟลเดอร์ปัจจุบัน (เพื่อ Debug)
+    if os.path.exists(current_dir):
+        files = os.listdir(current_dir)
+        st.warning(f" ไฟล์ในโฟลเดอร์ปัจจุบัน: {files}")
+    
     st.stop()
+
+# โหลดโมเดลจาก path ที่ถูกต้อง
+@st.cache_resource
+def load_models():
+    with open(scaler_path, 'rb') as f: 
+        scaler = pickle.load(f)
+    with open(models_path, 'rb') as f: 
+        models = pickle.load(f)
+    return scaler, models
 
 st.markdown("""
 <style>
