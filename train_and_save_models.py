@@ -14,8 +14,9 @@ from sklearn.ensemble import IsolationForest
 print("🚀 เริ่มกระบวนการเทรนและบันทึกโมเดล...")
 
 # 1. โหลดข้อมูล
-url = "https://raw.githubusercontent.com/selva86/datasets/master/Banknote_Authentication.csv"
-df = pd.read_csv(url)
+#url = "https://raw.githubusercontent.com/selva86/datasets/master/Banknote_Authentication.csv"
+#df = pd.read_csv(url)
+df = pd.read_csv('BankNote_Authentication.csv')
 
 X = df.drop('class', axis=1)
 y = df['class']
